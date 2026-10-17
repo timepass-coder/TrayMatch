@@ -48,7 +48,7 @@ namespace TrayMatch.Core.Tests
                 var events = state.Tap((int)tap[0], (int)tap[1]);
 
                 Assert.IsTrue(
-                    events.OfType<BlockLeftEvent>().Any(),
+                    events.OfType<LeftEvent>().Any(),
                     $"tap at ({tap[0]},{tap[1]}) did not send any block out");
             }
 
