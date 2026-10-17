@@ -5,7 +5,6 @@ namespace TrayMatch.Core
 {
     // Plain data for one level, as loaded from a baked level file.
     // Public fields + [Serializable] so Unity's JsonUtility can read it later.
-    [Serializable]
     public sealed class BlockData
     {
         public int X;
@@ -24,9 +23,10 @@ namespace TrayMatch.Core
         }
     }
 
-    [Serializable]
     public sealed class Level
     {
+        public const int CurrentFormat =1;
+        public int Format = CurrentFormat;
         public int Id;
         public int Width;
         public int Height;

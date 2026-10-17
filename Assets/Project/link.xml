@@ -1,0 +1,6 @@
+
+<linker>
+    <!-- Newtonsoft reads level files via reflection. Keep the Core data classes from being
+         stripped in IL2CPP (mobile) builds. -->
+    <assembly fullname="TrayMatch.Core" preserve="all" />
+</linker>

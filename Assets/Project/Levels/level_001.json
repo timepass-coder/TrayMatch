@@ -1,0 +1,30 @@
+{
+  "format": 1,
+  "id": 1,
+  "width": 5,
+  "height": 5,
+  "traySize": 5,
+  "moveLimit": 11,
+  "blocks": [
+    {"x":0,"y":2,"dir":"up","color":1},
+    {"x":0,"y":0,"dir":"up","color":1},
+    {"x":2,"y":0,"dir":"up","color":1},
+    {"x":2,"y":2,"dir":"up","color":1},
+    {"x":3,"y":4,"dir":"left","color":1},
+    {"x":1,"y":2,"dir":"down","color":1},
+    {"x":1,"y":4,"dir":"left","color":0},
+    {"x":2,"y":4,"dir":"left","color":0},
+    {"x":2,"y":1,"dir":"right","color":2},
+    {"x":1,"y":1,"dir":"right","color":2},
+    {"x":0,"y":1,"dir":"right","color":2},
+    {"x":2,"y":3,"dir":"left","color":0}
+  ],
+  "meta": {
+    "source": "web-prototype",
+    "prototypeLevel": 1,
+    "trains": true,
+    "solution": [
+      [0,1],[0,0],[2,2],[0,2],[1,4],[1,2],[2,4],[3,4],[2,3]
+    ]
+  }
+}
