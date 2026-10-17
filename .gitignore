@@ -2,7 +2,6 @@
 # Packages/
 # Library/
 # Logs/
-ProjectSettings
 
 # ---- Unity generated folders ----
 /[Ll]ibrary/
@@ -21,6 +20,7 @@ ProjectSettings
 .idea/
 *.csproj
 *.sln
+*.slnx
 *.suo
 *.user
 *.userprefs
