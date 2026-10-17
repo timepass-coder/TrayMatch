@@ -1,0 +1,59 @@
+# .vscode/
+# Packages/
+# Library/
+# Logs/
+ProjectSettings
+
+# ---- Unity generated folders ----
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# ---- IDE / generated project files ----
+.vs/
+.vscode/
+.idea/
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.pdb.meta
+*.mdb.meta
+
+# ---- Our DotnetTests: keep the 2 project files, ignore their build output ----
+!DotnetTests/**/*.csproj
+DotnetTests/**/bin/
+DotnetTests/**/obj/
+
+# ---- Builds / packages ----
+*.apk
+*.aab
+*.unitypackage
+*.unitypackage.meta
+*.app
+crashlytics-build.properties
+
+# ---- Misc ----
+sysinfo.txt
+mono_crash.*
+*.tmp
+.gradle/
+ExportedObj/
+/[Aa]ssets/[Ss]treamingAssets/aa.meta
+/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
