@@ -13,11 +13,15 @@ namespace TrayMatch.View
         const int BlockOrder = 10;
 
         readonly Dictionary<int, BlockView> _blocks = new Dictionary<int, BlockView>();
+
         int _width, _height;
+        GameState _state;
 
         public void Build(GameState state)
         {
             Clear();
+            _state = state;
+
             _width = state.Width;
             _height = state.Height;
 
@@ -43,11 +47,23 @@ namespace TrayMatch.View
                 }
             }
 
-            foreach (var block in state.Blocks)
-            {
-                _blocks[block.Index] = BlockView.Create(
-                    transform, block, CellToLocal(block.X, block.Y), BlockOrder);
-            }
+            
+        foreach (var block in state.Blocks)
+        {
+            var view = BlockView.Create(
+                transform,
+                block,
+                CellToLocal(block.X, block.Y),
+                BlockOrder
+            );
+
+            view.gameObject
+                .AddComponent<BlockMotion>()
+                .Init(block.Dir, (block.X + block.Y) * 0.025f);
+
+            _blocks[block.Index] = view;
+        }
+
         }
 
         public Vector3 CellToLocal(int x, int y) =>
@@ -61,19 +77,70 @@ namespace TrayMatch.View
 
             return x >= 0 && y >= 0 && x < _width && y < _height;
         }
-
-        // Step 4a: blocks simply disappear. Step 4b replaces this with the slide-out animation.
-        public void RemoveBlocks(IReadOnlyList<int> indices)
+            
+        public void LaunchForTray(List<int> indices, TrayView tray)
         {
-            foreach (int i in indices)
+            float maxDistance = 0f;
+
+            foreach (var i in indices)
+                maxDistance = Mathf.Max(
+                    maxDistance,
+                    DistanceToEdge(_state.Blocks[i]));
+
+            for (int n = 0; n < indices.Count; n++)
             {
-                if (_blocks.TryGetValue(i, out var view))
-                {
-                    Destroy(view.gameObject);
-                    _blocks.Remove(i);
-                }
+                int i = indices[n];
+
+                if (!_blocks.TryGetValue(i, out var view))
+                    continue;
+
+                int color = _state.Blocks[i].Color;
+                blocks.Remove(i);
+
+                int steps = DistanceToEdge(_state.Blocks[i]);
+
+                view.GetComponent<BlockMotion>().Launch(
+                    DistanceToEdge(_state.Blocks[i]),
+                    maxDistance,
+                    n * 0.04f,
+                    () => tray.TargetFor(color),
+                    () => tray.Land(color));
             }
         }
+
+        // The blocks slide forward `steps` cells, hit a blocker, and come back.
+        public void BumpBlockedOnly(List<int> indices, int blocker, int steps)
+        {
+            float distance = steps + 0.18f;
+
+            foreach (int i in indices)
+            {
+                if (!_blocks.TryGetValue(i, out var view))
+                    continue;
+
+                view.GetComponent<BlockMotion>().Bump(distance);
+            }
+
+            if (_blocks.TryGetValue(blocker, out var hit))
+                hit.GetComponent<BlockMotion>().Hit(
+                    _state.Blocks[indices[0]].Dir,
+                    BlockMotion.BumpOutTime(distance));
+        }
+
+        // Cells between the block and the board edge in its direction, plus a small overshoot.
+        float DistanceToEdge(BlockState b)
+        {
+            int cells = b.Dir switch
+            {
+                Direction.Up    => b.Y,
+                Direction.Right => _width - 1 - b.X,
+                Direction.Down  => _height - 1 - b.Y,
+                _               => b.X
+            };
+
+            return cells + 0.8f;
+        }
+
 
         void Clear()
         {

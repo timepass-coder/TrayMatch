@@ -14,6 +14,7 @@ namespace TrayMatch.View
         [SerializeField] Camera cam;
 
         BoardView _board;
+        TrayView _tray;
         GameState _state;
         int _levelIndex;
 
@@ -21,6 +22,7 @@ namespace TrayMatch.View
         {
             if (cam == null) cam = Camera.main;
             _board = new GameObject("Board").AddComponent<BoardView>();
+            _tray = new GameObject("Tray").AddComponent<TrayView>();
         }
 
         void Start() => StartLevel(0);
@@ -37,6 +39,7 @@ namespace TrayMatch.View
             var level = LevelSerializer.FromJson(levels[_levelIndex].text);
             _state = new GameState(level);
             _board.Build(_state);
+            _tray.Build(_state.TraySize)
             FitCamera();
 
             Debug.Log($"Level {level.Id}: {_state.Blocks.Count} blocks, {_state.MovesLeft} moves, tray size {_state.TraySize}");
@@ -73,11 +76,11 @@ namespace TrayMatch.View
                 switch (e)
                 {
                     case LeftEvent left:
-                        _board.RemoveBlocks(left.Blocks);
+                        _board.LaunchToTray(left.Blocks, _tray);
                         break;
 
                     case BumpedEvent bump:
-                        Debug.Log($"Bumped into block {bump.Blocker} (no move used)");
+                        _board.Bump(bump.Blocks, bump.Blocker, bump.Steps);
                         break;
 
                     case TripleClearedEvent triple:
@@ -93,7 +96,7 @@ namespace TrayMatch.View
                         break;
                 }
             }
-
+            _tray.SetDanger(_state.Status == GameStatus.Playing && _state.Tray.Count >= _state.TraySize -1);
             Debug.Log($"Moves left {_state.MovesLeft} | tray [{string.Join(", ", _state.Tray)}] ({_state.Tray.Count}/{_state.TraySize})");
         }
 
@@ -105,13 +108,14 @@ namespace TrayMatch.View
 
             // Room around the board: 1 cell at the sides, space above for the HUD (step 4c)
             // and below for the tray (step 4b).
-            float neededWidth = _state.Width + 1f;
+            float neededWidth = Mathf.Max(_state.Width,_state.TraySize*TrayView.SlotSize)+ 1f;
             float neededHeight = _state.Height + 4f;
 
             cam.orthographicSize = Mathf.Max(neededHeight / 2f, neededWidth / 2f / cam.aspect);
             cam.transform.position = new Vector3(0, 0, -10);
 
             _board.transform.position = new Vector3(0, 0.5f, 0);
+            _tray.transform.posistion = new Vector3(0,0.5f - _state.Height/2f -1f, 0);
         }
     }
 }
