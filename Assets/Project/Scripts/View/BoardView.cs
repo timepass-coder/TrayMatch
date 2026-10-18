@@ -78,7 +78,7 @@ namespace TrayMatch.View
             return x >= 0 && y >= 0 && x < _width && y < _height;
         }
             
-        public void LaunchForTray(List<int> indices, TrayView tray)
+        public void LaunchToTray(IReadOnlyList<int> indices, TrayView tray)
         {
             float maxDistance = 0f;
 
@@ -95,9 +95,7 @@ namespace TrayMatch.View
                     continue;
 
                 int color = _state.Blocks[i].Color;
-                blocks.Remove(i);
-
-                int steps = DistanceToEdge(_state.Blocks[i]);
+                _blocks.Remove(i);
 
                 view.GetComponent<BlockMotion>().Launch(
                     DistanceToEdge(_state.Blocks[i]),
@@ -109,7 +107,7 @@ namespace TrayMatch.View
         }
 
         // The blocks slide forward `steps` cells, hit a blocker, and come back.
-        public void BumpBlockedOnly(List<int> indices, int blocker, int steps)
+        public void Bump(IReadOnlyList<int> indices, int blocker, int steps)
         {
             float distance = steps + 0.18f;
 
