@@ -1,0 +1,14 @@
+{
+    "name": "TrayMatch.Generator",
+    "rootNamespace": "TrayMatch.Generator",
+    "references": ["TrayMatch.Core"],
+    "includePlatforms": ["Editor"],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

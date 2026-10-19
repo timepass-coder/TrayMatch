@@ -12,7 +12,7 @@ namespace TrayMatch.Core.Tests
     // meta.solution. Replaying it through GameState proves the C# rules match the prototype.
     public class GoldenLevelTests
     {
-        static string LevelPath(string file)
+        internal static string LevelPath(string file)
         {
             // Unity runs tests from the project folder; the Mac test runner from its output folder.
             foreach (var root in new[]

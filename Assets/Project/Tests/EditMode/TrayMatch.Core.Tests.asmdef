@@ -5,7 +5,8 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "TrayMatch.Core"
+        "TrayMatch.Core",
+        "TrayMatch.Generator"
     ],
     "includePlatforms": [
         "Editor"
