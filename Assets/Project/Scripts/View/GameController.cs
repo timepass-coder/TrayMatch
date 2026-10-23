@@ -16,7 +16,7 @@ namespace TrayMatch.View
         const float WinPanelDelay = 0.9f;
         const float LosePanelDelay = 0.75f;
 
-        [SerializeField] TextAsset[] levelPack;
+        [SerializeField] TextAsset levelPack;
         [SerializeField] HudView hud;
         [SerializeField] Camera cam;
 
