@@ -1802,10 +1802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a031c56f394cae40be12a2ba9767bb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: TrayMatch.View::TrayMatch.View.GameController
-  levels:
-  - {fileID: 4900000, guid: 85c82c2c5ffcd5c47ba1078003f9e557, type: 3}
-  - {fileID: 4900000, guid: f7559902df211754ebc12be7a13aa96a, type: 3}
-  - {fileID: 4900000, guid: c47f95893e25a8043b1e4994020c8b83, type: 3}
+  levelPack: {fileID: 4900000, guid: 780b76f45d7e1a745ad89dd674d99c65, type: 3}
   hud: {fileID: 777696851}
   cam: {fileID: 0}
 --- !u!4 &1204551218
