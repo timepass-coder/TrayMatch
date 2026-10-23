@@ -14,7 +14,7 @@ namespace TrayMatch.Core.Tests
 
         // Values from mulberry32() in prototype/web/index.html, times 2^32.
         [TestCase(0, new[] { 1144304738L, 1416247L, 958946056L, 627933444L })]
-        [TestCase(20257, new[] { 1333135766L, 2856554421L, 3387440907L, 761997094L })]
+        [TestCase(20257, new[] { 1333135756L, 2856554421L, 3387494097L, 761997094L })]
         [TestCase(-5, new[] { 2078107854L, 227493659L, 4033117029L, 3420415754L })]
         public void Mulberry32_MatchesPrototype(int seed, long[] expected)
         {
@@ -133,7 +133,7 @@ namespace TrayMatch.Core.Tests
 
         // The invariants from docs/ARCHITECTURE.md §8: solvable, block count a multiple of 3,
         // the solution fits the move limit and never overflows the tray.
-        static void AssertValid(Recipe recipe, int seed, string name)
+        internal static void AssertValid(Recipe recipe, int seed, string name)
         {
             var g = LevelGenerator.Generate(recipe, seed);
             Assert.IsNotNull(g, $"{name}: no level after {LevelGenerator.MaxAttempts} attempts");

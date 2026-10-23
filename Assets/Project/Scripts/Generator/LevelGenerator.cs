@@ -196,7 +196,7 @@ namespace TrayMatch.Generator
                         // Prefer pieces that sit in the exit path of many placed blocks.
                         int blocking = 0;
                         foreach (var (cx, cy) in cells) blocking += BlockedBy(cx, cy);
-                        double score = blocking * 2 + _rng.NextDouble() * 3;
+                        double score = blocking * 2 + _rng.Next() * 3;
                         if (score > bestScore)
                         {
                             bestScore = score;
