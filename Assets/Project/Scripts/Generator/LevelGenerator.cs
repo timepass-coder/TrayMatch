@@ -25,6 +25,8 @@ namespace TrayMatch.Generator
     // the order of RNG calls: Recipe.Prototype(L) + Recipe.PrototypeSeed(L) give the browser's level L.
     public static class LevelGenerator
     {
+        // Stamped into each baked level. Bump it when a code change can change generated levels.
+        public const string Version = "1.0";
         public const int MaxAttempts = 30;
         public const int AttemptSeedStep = 1000003;
 

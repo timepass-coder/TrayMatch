@@ -46,5 +46,37 @@ namespace TrayMatch.Core
 
             return level;
         }
+        public static string ToJson(LevelPack pack) =>
+        JsonConvert.SerializeObject(pack, Settings);
+
+        public static LevelPack PackFromJson(string json)
+        {
+            if (string.IsNullOrWhiteSpace(json))
+                throw new FormatException("Level pack JSON is empty.");
+
+            LevelPack pack;
+            try
+            {
+                pack = JsonConvert.DeserializeObject<LevelPack>(json, Settings);
+            }
+            catch (JsonException e)
+            {
+                throw new FormatException("Invalid level pack JSON: " + e.Message, e);
+            }
+
+            if (pack == null || pack.Levels == null)
+                throw new FormatException("Level pack JSON has no levels.");
+
+            if (pack.Format > LevelPack.CurrentFormat)
+                throw new FormatException(
+                    $"Level pack format {pack.Format} is newer than this game supports ({LevelPack.CurrentFormat}).");
+
+            foreach (var level in pack.Levels)
+                if (level.Format > Level.CurrentFormat)
+                    throw new FormatException(
+                        $"Level {level.Id} has format {level.Format}, newer than this game supports ({Level.CurrentFormat}).");
+
+            return pack;
+        }
     }
 }

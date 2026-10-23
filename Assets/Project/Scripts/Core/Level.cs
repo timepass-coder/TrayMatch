@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TrayMatch.Core
 {
@@ -33,5 +34,8 @@ namespace TrayMatch.Core
         public int TraySize = 5;
         public int MoveLimit;
         public List<BlockData> Blocks = new List<BlockData>();
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public LevelMeta Meta; // where the game came from; the game oesnt need it to play
     }
 }

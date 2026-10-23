@@ -16,7 +16,7 @@ namespace TrayMatch.View
         const float WinPanelDelay = 0.9f;
         const float LosePanelDelay = 0.75f;
 
-        [SerializeField] TextAsset[] levels;
+        [SerializeField] TextAsset[] levelPack;
         [SerializeField] HudView hud;
         [SerializeField] Camera cam;
 
@@ -24,12 +24,14 @@ namespace TrayMatch.View
         TrayView _tray;
         GameState _state;
         int _levelIndex;
+        List<Level> _levels;
 
         void Awake()
         {
             if (cam == null) cam = Camera.main;
             _board = new GameObject("Board").AddComponent<BoardView>();
             _tray = new GameObject("Tray").AddComponent<TrayView>();
+            if (levelPack != null) _levels = LevelSerializer.PackFromJson(levelPack.text).Levels;
 
             if (hud == null)
             {
@@ -46,15 +48,15 @@ namespace TrayMatch.View
 
         void StartLevel(int index)
         {
-            if (levels == null || levels.Length == 0)
+            if (_levels == null || _levels.Count == 0)
             {
-                Debug.LogError("GameController: no level files assigned in the Inspector.");
+                Debug.LogError("GameController: no level pack assigned in the Inspector.");
                 return;
             }
 
             StopAllCoroutines(); // an end panel still waiting to appear from the previous level
-            _levelIndex = (index % levels.Length + levels.Length) % levels.Length;
-            var level = LevelSerializer.FromJson(levels[_levelIndex].text);
+            _levelIndex = (index % _levels.Count + _levels.Count) % _levels.Count;
+            var level = _levels[_levelIndex];
             _state = new GameState(level);
             _board.Build(_state);
             _tray.Build(_state.TraySize);
